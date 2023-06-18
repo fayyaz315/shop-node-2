@@ -6,6 +6,7 @@ import serveStatic from "serve-static";
 
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
+import featchProducts from "./fetch-products.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 
 const PORT = parseInt(
@@ -38,6 +39,12 @@ app.post(
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
+
+app.get("/api/products", async (_req, res) => {
+  const session = res.locals.shopify.session
+  const products = await featchProducts(session);
+  res.status(200).send({products})
+})
 
 app.get("/api/products/count", async (_req, res) => {
   const countData = await shopify.api.rest.Product.count({

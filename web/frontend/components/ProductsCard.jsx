@@ -35,6 +35,7 @@ export function ProductsCard() {
     const response = await fetch("/api/products/create");
 
     if (response.ok) {
+      console.log(await response.json())
       await refetchProductCount();
       setToastProps({
         content: t("ProductsCard.productsCreatedToast", {
@@ -50,6 +51,12 @@ export function ProductsCard() {
     }
   };
 
+  const fetchProducts = async () => {
+    const response = await fetch("/api/products");
+    console.log(await response.json())
+  };
+
+
   return (
     <>
       {toastMarkup}
@@ -63,6 +70,10 @@ export function ProductsCard() {
           onAction: handlePopulate,
           loading: isLoading,
         }}
+        secondaryFooterActions={[{
+          content: "Fetch Prodcuts",
+          onAction: fetchProducts,
+        }]}
       >
         <TextContainer spacing="loose">
           <p>{t("ProductsCard.description")}</p>
@@ -74,6 +85,7 @@ export function ProductsCard() {
           </Text>
         </TextContainer>
       </Card>
+      
     </>
   );
 }
