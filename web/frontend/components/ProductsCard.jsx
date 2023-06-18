@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, TextContainer, Text } from "@shopify/polaris";
-import { Toast } from "@shopify/app-bridge-react";
+import { Toast, useNavigate } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
@@ -11,6 +11,7 @@ export function ProductsCard() {
   const fetch = useAuthenticatedFetch();
   const { t } = useTranslation();
   const productsCount = 5;
+  const navigate = useNavigate()
 
   const {
     data,
@@ -71,8 +72,8 @@ export function ProductsCard() {
           loading: isLoading,
         }}
         secondaryFooterActions={[{
-          content: "Fetch Prodcuts",
-          onAction: fetchProducts,
+          content: "View all products",
+          onAction: ()=> navigate({name: 'Product'}, {target: 'new'}),
         }]}
       >
         <TextContainer spacing="loose">
